@@ -1,0 +1,82 @@
+
+<html>
+<link rel="stylesheet" href="https://code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
+ <script src="https://code.jquery.com/jquery-1.10.2.js"></script>
+ <script src="https://code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
+
+<script>
+
+setTimeout(openDialog,5000);
+function openDialog()
+{
+var dialogContent = $(".popup");
+$(".popup").removeClass("hide").addClass("show");
+dialogContent.dialog();
+
+showLeftOverTime();
+}
+
+function closeDialog()
+{
+		var dialogContent = $(".popup");
+		$(".popup").removeClass("show").addClass("hide");
+		setTimeout(openDialog,5000);
+}
+
+
+function showLeftOverTime()
+{
+	var endTime  = Date.parse(new Date(Date.parse(new Date())+ 5*60*1000));
+	function updateTime()
+	{
+	var  timeLeft = endTime-Date.parse(new Date());
+	var seconds = Math.floor((timeLeft/1000)%60);
+	var minutes = Math.floor((timeLeft/1000/60)%60);
+	//$("#time").innerHTML= minutes+":"+seconds;
+	$("#time").text(minutes+":"+seconds+" Left Over");
+	if(timeLeft <= 0)
+	{
+		clearInterval(timeInterval);
+	}
+	
+	}
+	updateTime();
+	var timeInterval  = setInterval(updateTime, 1000)
+}
+
+/*function updateTime(endDate)
+{
+	var seconds = Math.floor((endDate/1000)%60);
+	var minutes = Math.floor((endDate/1000/60)%60);
+	//$("#time").innerHTML= minutes+":"+seconds;
+	$("#time").text(minutes+":"+seconds);
+	//updateTime(endDate);
+}*/
+</script>
+<style>
+.popup
+{
+	z-index: 1;
+	padding-top: 100px;
+
+}
+.hide
+{
+	display: none;
+}
+.show
+{
+	display: block;
+}
+.ui-button.ui-widget 
+{
+display: none;
+}
+</style>
+<div class="popup hide" title="Dialog">
+<p> your session is going to expire</p>
+<p id="time"></p>
+<button onclick="closeDialog()"> Stay sign in </button>
+<a href="">Logout</a>
+</div>
+</html>
